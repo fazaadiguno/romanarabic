@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <center>
+                <h1>Roman/Arabic Converter</h1><br>
+            
+                <input type="text" name="" id="entry" placeholder="Input here">
+                <br><br>
+                <h3><input type="radio" value="roman" id="roman">Convert to Roman
+                <br><br>
+                <input type="radio" value="arab" id="arab">Convert to Arabic
+                <br><br></h3>
+                <button onclick="load()">Submit</button>
+                <p id="result">...</p>
+            </center>
+    <script>
+        function load() {
+            let entry = document.getElementById("entry").value
+            if (document.getElementById('roman').checked) { roman(entry) }
+            else if (document.getElementById('arab').checked) { arab(entry) }
+            function roman(entry) {
+                let numeralCodes = [["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"], 
+                ["", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"],   
+                ["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"]];        
+                let numeral = "";
+                let digits = entry.toString().split('').reverse();
+                for (let i = 0; i < digits.length; i++) {
+                    numeral = numeralCodes[i][parseInt(digits[i])] + numeral;
+                }
+                document.getElementById("result").innerHTML = `${entry} in roman numerals looks like this: ${numeral}`;
+            } 
+            
+            function arab(entry) {
+                if(entry == null) return -1;
+                let num = equiv(entry.charAt(0));
+                let pre, curr;
+                
+            
+
+                function equiv(c){
+                    switch (c){
+                    case 'I': return 1;
+                    case 'V': return 5;
+                    case 'X': return 10;
+                    case 'L': return 50;
+                    case 'C': return 100;
+                    case 'D': return 500;
+                    case 'M': return 1000;
+                    default: return -1;
+                        }
+                    }
+            
+
+                for(let i = 1; i < entry.length; i++){
+                curr = equiv(entry.charAt(i));
+                pre = equiv(entry.charAt(i-1));
+                if(curr <= pre){
+                num += curr;
+                } else {
+                num = num - pre*2 + curr;
+                }
+                }
+                
+                document.getElementById("result").innerHTML = `${entry} in arabic numerals looks like this: ${num}`;
+                }
+            }
+        
+    </script>
+</body>
+</html>
